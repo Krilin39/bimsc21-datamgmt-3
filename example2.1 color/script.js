@@ -5,7 +5,7 @@ import rhino3dm from "https://cdn.jsdelivr.net/npm/rhino3dm@7.11.1/rhino3dm.modu
 import { RhinoCompute } from "https://cdn.jsdelivr.net/npm/compute-rhino3d@0.13.0-beta/compute.rhino3d.module.js";
 import { Rhino3dmLoader } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js";
 
-const definitionName = "rnd_node.gh";
+const definitionName =   "GH rhinocompute test 1.gh"; // "twisting-pole.gh" "rnd_node.gh" "Operating Theather test1.gh" ;
 
 // Set up sliders
 const radius_slider = document.getElementById("radius");
@@ -89,8 +89,11 @@ async function compute() {
 
      // asign geometry userstrings to object attributes
     if ( rhinoObject.geometry().userStringCount > 0 ) {
-      const g_userStrings = rhinoObject.geometry().getUserStrings()
-      rhinoObject.attributes().setUserString(g_userStrings[0][0], g_userStrings[0][1])
+      //const g_userStrings = rhinoObject.geometry().getUserStrings()
+      //rhinoObject.attributes().setUserString(g_userStrings[0][0], g_userStrings[0][1])
+
+      const _Area = rhinoObject.geometry().getUserStrings()[0]
+      console.log(_Area);
       
     }
   }
@@ -144,16 +147,19 @@ let scene, camera, renderer, controls;
 
 function init() {
   // create a scene and a camera
+  THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 0, 1 );
   scene = new THREE.Scene();
   scene.background = new THREE.Color(1, 1, 1);
   camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    30000
   );
   camera.position.z = -30;
 
+
+  
   // create the renderer and add it to the html
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -163,6 +169,9 @@ function init() {
   controls = new OrbitControls(camera, renderer.domElement);
 
   // add a directional light
+  
+
+
   const directionalLight = new THREE.DirectionalLight(0xffffff);
   directionalLight.intensity = 2;
   scene.add(directionalLight);
