@@ -26,6 +26,43 @@
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
             }
+            
+            body { margin: 0; }
+
+			/* CSS for a spinning animation */ 
+			#loader {
+                border: 5px solid #f3f3f3; /* Light grey */
+                border-top: 5px solid #c22f2f; /* Grey */
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+
+           
+            /* style user strings pop-up */
+            #container {
+                position: absolute;
+                z-index: 100;
+                top: 0;
+                margin: 100px;
+                padding: 10px;
+                background-color: rgb(97, 97, 97);
+                color: white;
+                width: 250px;
+                font-family: monospace;
+            }
+
+            table { border: none; border-collapse: collapse; }
+            table td {
+                border-left: 1px solid white;
+                padding: 10px;
+            }
+            table td:first-child { border-left: none; }
+
         </style>
     </head>
     <body>
@@ -33,12 +70,12 @@
         <div id="container">
             <div id="overlay">
                 <div>
-                    <input type="range" id="count" name="count" min="1" max="50" value="1" step="1">
-                    <label for="count">Count</label>
+                    <input type="range" id="count" name="count" min="1" max="11" value="6" step="1">
+                    <label for="count">Amount</label>
                 </div>
                 <div>
-                    <input type="range" id="radius" name="radius" min="1" max="10" value="1" step="1">
-                    <label for="radius">Radius</label>
+                    <input type="range" id="radius" name="radius" min="1" max="20" value="5" step="0.1">
+                    <label for="radius">Width</label>
                 </div>
 
             </div>

@@ -5,18 +5,33 @@ import rhino3dm from "https://cdn.jsdelivr.net/npm/rhino3dm@7.11.1/rhino3dm.modu
 import { RhinoCompute } from "https://cdn.jsdelivr.net/npm/compute-rhino3d@0.13.0-beta/compute.rhino3d.module.js";
 import { Rhino3dmLoader } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js";
 
-const definitionName =   "GH rhinocompute test 1.gh"; // "twisting-pole.gh" "rnd_node.gh" "Operating Theather test1.gh" ;
+const definitionName =  "Ear ring.gh" ;//"GH rhinocompute test 1.gh"; // "twisting-pole.gh" "rnd_node.gh" "Operating Theather test1.gh" ;
+const model = 'Sydney test1 mesh map reduced.3dm'
 
 // Set up sliders
 const radius_slider = document.getElementById("radius");
 radius_slider.addEventListener("mouseup", onSliderChange, false);
 radius_slider.addEventListener("touchend", onSliderChange, false);
-
 const count_slider = document.getElementById("count");
 count_slider.addEventListener("mouseup", onSliderChange, false);
 count_slider.addEventListener("touchend", onSliderChange, false);
 
-const loader = new Rhino3dmLoader();
+
+
+
+
+const loader = new Rhino3dmLoader()
+loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.13.0/' )
+
+loader.load( model, function ( object ) {
+
+    // uncomment to hide spinner when model loads
+    // document.getElementById('loader').remove()
+    scene.add( object )
+
+} )
+
+
 loader.setLibraryPath("https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/");
 
 let rhino, definition, doc;
@@ -47,6 +62,8 @@ async function compute() {
 
   const param2 = new RhinoCompute.Grasshopper.DataTree("Count");
   param2.append([0], [count_slider.valueAsNumber]);
+
+  
 
   // clear values
   const trees = [];
@@ -97,14 +114,17 @@ async function compute() {
       
     }
   }
-
-
   // clear objects from scene
-  scene.traverse((child) => {
+  scene.traverse(child => {
     if (!child.isLight) {
-      scene.remove(child);
+        scene.remove(child)
     }
-  });
+})
+
+
+       
+
+
 
   const buffer = new Uint8Array(doc.toByteArray()).buffer;
   loader.parse(buffer, function (object) {
@@ -133,6 +153,14 @@ async function compute() {
     scene.add(object);
 
   });
+
+  loader.load( model, function ( object ) {
+
+    // uncomment to hide spinner when model loads
+    // document.getElementById('loader').remove()
+    scene.add( object )
+
+} )
 }
 
 function onSliderChange() {
@@ -145,6 +173,10 @@ function onSliderChange() {
 // THREE BOILERPLATE //
 let scene, camera, renderer, controls;
 
+
+const mouse = new THREE.Vector2()
+window.addEventListener( 'click', onClick, false);
+
 function init() {
   // create a scene and a camera
   THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 0, 1 );
@@ -156,7 +188,7 @@ function init() {
     0.1,
     30000
   );
-  camera.position.z = -30;
+  camera.position.y = -60;
 
 
   
@@ -198,4 +230,10 @@ function meshToThreejs(mesh, material) {
   const loader = new THREE.BufferGeometryLoader();
   const geometry = loader.parse(mesh.toThreejsJSON());
   return new THREE.Mesh(geometry, material);
+
+
 }
+
+
+
+
